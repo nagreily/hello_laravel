@@ -36,7 +36,7 @@ class UserController extends Controller
 //    Route::get('users/{user}', [UserController::class, 'show']);
     public function show(User $user)
     {
-        return view('user.profile', ['user' => $user]);
+//        return view('user.profile', ['user' => $user]);
     }
 
     public function login($id)
