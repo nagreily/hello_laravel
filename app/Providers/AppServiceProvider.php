@@ -8,6 +8,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -33,6 +34,9 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot()
     {
+//        执行迁移时指定字符串的长度
+        Schema::defaultStringLength(191);
+
 //        共享一段数据给应用程序的所有视图
         View::share('key','value');
 

@@ -1,15 +1,10 @@
 <?php
 
 namespace App\Models;
-use App\Http\Resources\User as UserResource;
-
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Route;
 use Laravel\Sanctum\HasApiTokens;
 
 /**
@@ -19,6 +14,14 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+
+//Notifiable 是消息通知相关功能引用
+//HasFactory 是模型工厂相关功能的引用
+//Authenticatable 是授权相关功能的引用。
+
+
+//通过table属性值名要交互的数据表的名称
+    protected $table = 'users';
 
     /**
      * The attributes that are mass assignable.
@@ -36,6 +39,8 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+
+//    对用户密码或其它敏感信息在用户实例通过数组或 JSON 显示时进行隐藏
     protected $hidden = [
         'password',
         'remember_token',
@@ -49,35 +54,5 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-
-    public static function paginate($users)
-    {
-//        每页显示15条数据
-        $users = DB::table('users')->paginate(15);
-
-        return view('paging', ['users' => $users]);
-    }
-
-    public static function booted()
-    {
-//        在模型的静态方法booted中注册闭包，确保在模型加载时自动注册事件监听器
-        static::saving(function ($model) {
-//            在模型保存之前执行的逻辑
-        });
-        static::updated(function ($model) {
-//            在模型更新后执行的逻辑
-        });
-    }
-
-    public function userResource()
-    {
-        Route::get('/user', function () {
-            return new UserResource(User::find(1));
-        });
-    }
-
-
-
 
 }
