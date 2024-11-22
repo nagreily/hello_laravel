@@ -55,4 +55,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function gravatar($size = '100')
+    {
+//        $this->attributes['email'] 获取用户邮箱
+//        trim()剔除空白内容
+//        strtolower()转换成小写
+//        md5()转码，用于生成字符串的哈希值
+        $hash = md5(strtolower(trim($this->attributes['email'])));
+        return "http://www.gravatar.com/avatar/$hash?s=$size";
+    }
+
 }
